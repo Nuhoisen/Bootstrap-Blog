@@ -1,0 +1,36 @@
+<!doctype html>
+	<html lang="en">
+		<%- include('header_meta_content'); %>
+		
+		<body>
+			<div class="container">
+				<%- include('header'); %>
+				<%- include('nav_scrollbar'); %>
+			</div>
+			
+			<main role="main" class="container">
+				<% if (user) { %>
+					<% if (user.is_admin) { %>
+						<form class="d-inline" action="/blog_post/<%- blog_post.id %>?_method=DELETE" method="POST">
+							<button type="submit" class="btn btn-danger  btn-outline-secondary" style="color: #6c757d;">Delete</button>
+						</form>
+						
+						<form class="d-inline"  action="/blog_post/edit/<%- blog_post.id %>" method="GET">
+							<button type="submit" class="btn btn-warning  btn-outline-secondary" style="color: #6c757d;">Edit</button>
+						</form>
+						
+					<% } %>
+				<% } %>
+				<div class="blog-post">
+					<strong class="d-inline-block mb-2 text-primary"><%= blog_post.category %></strong>
+					<h2 class="blog-post-title"><%= blog_post.title %></h2>
+					<img src="<%= blog_post.blogImage %>">
+					<p class="blog-post-meta"><%= blog_post.createdAt.toLocaleDateString() %></p>				
+					<%- blog_post.sanitizedHtml %>
+				</div><!-- /.blog-post -->
+			</main><!-- /.container -->
+			
+			<%- include('footer'); %>
+
+		</body>
+</html>

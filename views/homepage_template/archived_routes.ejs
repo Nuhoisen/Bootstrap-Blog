@@ -1,0 +1,8 @@
+<div class="p-4">
+	<h4 class="font-italic">Archives</h4>
+		<ol class="list-unstyled mb-0">
+			<% archivedMonths.forEach(function(month){ %>
+				<li><a href="/date/<%= month.replace(/\s+/g, '-').toLowerCase() %>"> <%= month %></a></li>
+			<% }); %>
+		</ol>
+  </div>

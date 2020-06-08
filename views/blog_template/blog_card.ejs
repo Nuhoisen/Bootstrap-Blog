@@ -1,0 +1,8 @@
+<div class="blog-post">
+	<h2 class="blog-post-title"><%= posting.title %></h2>
+	<p class="blog-post-meta"><%= posting.createdAt.toLocaleDateString() %></p>
+	<p class="card-text mb-auto">
+		<%= posting.summary %>
+	</p>
+	<a  href="/blog_post/<%- posting._id %>">Continue Reading</a>
+</div>

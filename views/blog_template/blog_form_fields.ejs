@@ -1,0 +1,42 @@
+<div class="form-group">
+  <label for="title">Title</label>
+  <input required type="text" name="title" id="title" class="form-control" value="<%= blog_post.title %>">
+</div>
+<div class="form-group">
+  <label for="summary">Summary</label>
+  <textarea name="summary" id="summary" class="form-control"><%- blog_post.summary %></textarea>
+</div>
+<div class="form-group">
+  <label for="markdown">Markdown</label>
+  <textarea required name="markdown" id="markdown" class="form-control"><%= blog_post.markdown %></textarea>
+</div>
+
+<div class="form-group">
+  <label for="image">Upload Image</label>
+  <input  type="file"  id="image"  name="image" multiple >
+  <!-- class="filepond"  -->
+</div>
+
+<div class="form-group">
+	<label for="category">Category</label>
+	<select required class="custom-select d-block w-100" name="category" id="category">
+
+			<option selected value="">Choose one...</option>
+		<% metaData['categories'].forEach( category => { %>
+			<% if (category == blog_post.category ) { %>
+				<option selected><%- category %></option>
+			<% } else { %>
+				<option ><%- category %></option>
+			<% } %>
+		
+		<% }) %>
+	  
+		
+	</select>
+	<div class="invalid-feedback">
+	  Please select a valid country.
+	</div>
+</div>
+
+<a href="/" class="btn btn-secondary">Cancel</a>
+<button type="submit" class="btn btn-primary">Save</button>

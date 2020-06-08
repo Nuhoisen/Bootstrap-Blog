@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<%- include('header_meta_content'); %>
+  
+<body>
+    <div class="container">
+		<%- include('header'); %>
+		
+		<div class="container">
+			<h1 class="mb-4">Edit Blog Post</h1>
+
+			<form enctype="multipart/form-data" action="/blog_post/<%= blog_post._id %>?_method=PUT" method="POST">
+				<%- include('blog_form_fields') %>
+			</form>
+		  </div>
+		
+	</div>
+	
+	
+	<%- include('footer'); %>
+
+</body>
+</html>
