@@ -121,7 +121,6 @@ app.get('/category/:category', (req, res)=>{
 		if (err) return console.error(err);
 		
 		var user = req.user  ? req.user : null;
-		console.log(dbContents)
 		res.render('index', {user: user, blogContent : dbContents}); // Pass the DB Results into the Renderer
 	});
 });

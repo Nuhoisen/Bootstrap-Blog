@@ -10,6 +10,19 @@ const router 	= express.Router()
 // User Requires
 const UserSignin 	= require('./../models/signin')
 
+
+UserSignin.findOne({email : process.env.ADMIN_USER_EMAIL})
+        .then( async exst_admin => {
+                console.log("Found something");
+                console.log(exst_admin);
+        })
+        .catch ( err  => {
+                console.log("User not found");
+        });
+
+
+
+
 //Sign Up - Go to fields page
 router.get('/', (req,res)=>{
 	console.log("In signup get")
