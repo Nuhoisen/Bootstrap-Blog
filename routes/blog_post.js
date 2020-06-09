@@ -20,8 +20,6 @@ const storage			= multer.diskStorage({
 		cb(null, './static/imgs');
 	},
 	filename: function(req, file, cb) {
-		// console.log(file)
-		console.log(req.body)
 		cb(null, file.originalname )  ;
 	}
 });
@@ -82,8 +80,6 @@ function saveBlogImage(blogPost, blogImageEncoded){
 
 // Blog post submission
 router.post('/', upload.array('image', 10),  async (req, res, next) => {
-  console.log(req.files);
-  
   
   let blog_post = new Blogpost({
 	  title: 		req.body.title,
@@ -95,9 +91,7 @@ router.post('/', upload.array('image', 10),  async (req, res, next) => {
 	  blog_post.blogImages.push( "/" + file.path.replace(/\\/g, "/") );
 	  blog_post.blogImageTypes.push( file.mimetype );
   });
-	  // blogImage:	"/" + req.file.path.replace(/\\/g, "/"),
-  // saveBlogImage(blog_post, req.body.image);
-  console.log(blog_post.blogImage);
+
   try{
 	blog_post = await blog_post.save();
 	res.redirect(`/blog_post/${blog_post.id}`);
@@ -108,27 +102,22 @@ router.post('/', upload.array('image', 10),  async (req, res, next) => {
   }
 })
 
-
 // Blog post edit submission
 router.put('/:id', upload.array('image', 10),  async ( req, res, next ) => {
-	console.log(req.body)
 	let blog_posting ;
 	try{
 		blog_posting  = await Blogpost.findById(req.params.id);
 		// Update modifiable fields
 		blog_posting.title  	= req.body.title;
-		blog_posting.summary	= req.body.summary,
-		blog_posting.markdown 	= req.body.markdown,
-		blog_posting.category 	= req.body.category
+		blog_posting.summary	= req.body.summary;
+		blog_posting.markdown 	= req.body.markdown;
+		blog_posting.category 	= req.body.category;
 		
-		console.log("Testing req file existence" )
-		console.log( req.file )
+		req.files.forEach( ( file ) => {
+			  blog_posting.blogImages.push( "/" + file.path.replace(/\\/g, "/") );
+			  blog_posting.blogImageTypes.push( file.mimetype );
+		});
 		
-		if( req.file ) {
-			blog_posting.blogImage 		= "/" + req.file.path.replace(/\\/g, "/");
-			blog_posting.blogImageType 	= req.file.mimetype;	
-		}
-		console.log(blog_posting);
 		blog_posting = await blog_posting.save();
 		res.redirect(`/blog_post/${blog_posting.id}`);
 	}
@@ -138,7 +127,6 @@ router.put('/:id', upload.array('image', 10),  async ( req, res, next ) => {
 			res.redirect('/');
 		}
 		else{
-			console.log(blog_posting);
 			var user = req.user  ? req.user : null;
 			res.render('blog_edit_page', {user: user, blog_post: blog_posting});
 		}
@@ -166,7 +154,6 @@ router.get('/:id', async (req, res) => {
 
 // Blog post deletion
 router.delete('/:id', async(req, res) => {
-	console.log("Deleteing post")
 	await Blogpost.findByIdAndDelete(req.params.id);
 	res.redirect('/');	
 })
@@ -176,7 +163,7 @@ router.delete('/:id', async(req, res) => {
 
 // Blog post edit
 router.get('/edit/:id',  async(req, res) => {
-	console.log("In edit call");
+	
 	Blogpost.findById(req.params.id)
 		.then( blog_posting => {
 			var user = req.user  ? req.user : null;

@@ -76,14 +76,12 @@ app.use('/blog_post', blogpostRouter)
 
 // Cache information
 Blogpost.find({}).sort({createdAt: 'desc'}).exec()
-	.then(function(dbContents) {			
+	.then(function(dbContents) {		
 		app.locals.archivedMonths = utils.formatArchives(dbContents);
 	})
 	.catch( function(err){
 		return console.error(err);
 	});
-
-
 
 
 
@@ -96,18 +94,12 @@ app.delete('/signout', (req, res) => {
 })
 
 
-
-
 // Root call. 
 // Query the DB and update blog w/results
 app.get('/', (req,res)=>{
-	
-	Blogpost.find({}).sort({createdAt: 'desc'}).exec(function(err, dbContents) {
+	Blogpost.find({}).sort( { createdAt: 'desc' } ).exec(function(err, dbContents) {
 		if (err) return console.error(err);
-			
 		var user = req.user  ? req.user : null;
-		app.locals.archivedMonths = app.locals.archivedMonths  ? app.locals.archivedMonths : utils.formatArchives(dbContents);
-		
 		res.render('index', { user: user, blogContent : dbContents }); // Pass the DB Results into the Renderer
 	});
 });
@@ -117,7 +109,7 @@ app.get('/', (req,res)=>{
 // Category call.
 // Return results falling under category
 app.get('/category/:category', (req, res)=>{
-	Blogpost.find({ category: req.params.category }, function (err, dbContents) {
+	Blogpost.find({ category: req.params.category }).sort({createdAt: 'desc'}).exec(function (err, dbContents) {
 		if (err) return console.error(err);
 		
 		var user = req.user  ? req.user : null;
@@ -126,18 +118,15 @@ app.get('/category/:category', (req, res)=>{
 });
 
 
-// Category call.
-// Return results falling under category
+// Date call.
+// Return results in specified month and year
 app.get('/date/:date', (req, res)=>{
-	
 	var start = utils.pullDate(req.params.date.split('-')[0], req.params.date.split('-')[1], 1);
-	var end = new Date( start.getMonth(), start.getFullYear(), 31);
+	var end = new Date( start.getFullYear(), start.getMonth(), 31, 23, 59);
 	
-	Blogpost.find({"createdAt": {"$gte": start, "$lt": end}}, function (err, dbContents) {
+	Blogpost.find({"createdAt": {"$gte": start, "$lt": end}}).sort({createdAt: 'desc'}).exec(function (err, dbContents) {
 		if (err) return console.error(err);
-		
 		var user = req.user  ? req.user : null;
-		
 		res.render('index', {user: user, blogContent : dbContents}); // Pass the DB Results into the Renderer
 	});
 });
