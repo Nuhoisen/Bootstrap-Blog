@@ -6,13 +6,13 @@
 		<div class="container">
 		  <%- include('header'); %>
 		  <%- include('nav_scrollbar'); %>
-		  <% if ( blogContent.docs.length ) { %>
+		  <% if ( blogContent.docs && blogContent.docs.length ) { %>
 			<%- include('featured_post_primary'); %>
 		  <% } %>
 			
 		
 		  <div class="row mb-2">
-		   <% for ( var i = 1; ( i < 3 && i < blogContent.docs.length ); i = i +1 ){ %>
+		   <% for ( var i = 1; ( blogContent.docs && i < 3 && i < blogContent.docs.length ); i = i +1 ){ %>
 			<%- include('featured_post_secondary', {posting: blogContent.docs[i]}); %>	
 		   <% }; %>
 		  
@@ -26,7 +26,7 @@
 				Recent Posts
 			  </h3>
 
-			  <% for ( var i = 3; (i < blogContent.docs.length ); i = i +1 ){ %>
+			  <% for ( var i = 3; (blogContent.docs && i < blogContent.docs.length ); i = i +1 ){ %>
 				
 				<%- include('blog_card', { posting: blogContent.docs[i] }); %>
 			  <% }; %>

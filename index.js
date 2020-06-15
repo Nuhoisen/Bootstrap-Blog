@@ -137,12 +137,29 @@ app.get('/nav/:page_num', (req, res) => {
 // Category call.
 // Return results falling under category
 app.get('/category/:category', (req, res)=>{
-	Blogpost.find({ category: req.params.category }).sort({createdAt: 'desc'}).exec(function (err, dbContents) {
-		if (err) return console.error(err);
-		
-		var user = req.user  ? req.user : null;
-		res.render('index', {user: user, blogContent : dbContents}); // Pass the DB Results into the Renderer
-	});
+        
+	var aggregateQuery = Blogpost.aggregate([ { $match:{category: req.params.category} } ]);
+        
+
+	Blogpost.aggregatePaginate(	aggregateQuery, 
+								{ page: 1 , limit: RESULTS_PER_PAGE, sort: { createdAt: 'desc' }},
+								function( err, dbContents) {
+								if (err) return console.error(err);
+
+								
+								
+								
+								var user = req.user  ? req.user : null;
+								res.render('index', { user: user, blogContent : dbContents }); // Pass the DB Results into the Renderer
+							});
+
+
+//	Blogpost.({ category: req.params.category }).sort({createdAt: 'desc'}).exec(function (err, dbContents) {
+//		if (err) return console.error(err);
+//		
+//		var user = req.user  ? req.user : null;
+//		res.render('index', {user: user, blogContent : dbContents}); // Pass the DB Results into the Renderer
+//	});
 });
 
 
