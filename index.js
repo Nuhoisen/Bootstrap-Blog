@@ -33,8 +33,8 @@ mongoose.connect('mongodb://localhost/blog', {
 
 // Express Setup
 const app = express()
-const port = 3000
 const RESULTS_PER_PAGE = 4
+const port = 80 
 
 // User Meta Data
 app.locals.metaData 	= require('./static/blog_content/blog_data')
