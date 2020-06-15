@@ -34,10 +34,11 @@ mongoose.connect('mongodb://localhost/blog', {
 // Express Setup
 const app = express()
 const port = 3000
+const RESULTS_PER_PAGE = 4
 
 // User Meta Data
 app.locals.metaData 	= require('./static/blog_content/blog_data')
-
+app.locals.pageIndex	= 0
 
 // App Setup
 app.use(express.urlencoded({extended: false}));
@@ -84,7 +85,6 @@ Blogpost.find({}).sort({createdAt: 'desc'}).exec()
 	});
 
 
-
 // Signout method
 // Override POST method in form
 // To delete the session meta information
@@ -97,12 +97,40 @@ app.delete('/signout', (req, res) => {
 // Root call. 
 // Query the DB and update blog w/results
 app.get('/', (req,res)=>{
-	Blogpost.find({}).sort( { createdAt: 'desc' } ).exec(function(err, dbContents) {
-		if (err) return console.error(err);
-		var user = req.user  ? req.user : null;
-		res.render('index', { user: user, blogContent : dbContents }); // Pass the DB Results into the Renderer
-	});
+	
+	var aggregateQuery = Blogpost.aggregate();
+		
+	Blogpost.aggregatePaginate(	aggregateQuery, 
+								{ page: 1, limit: RESULTS_PER_PAGE, sort: { createdAt: 'desc' }},
+								function( err, dbContents) {
+								if (err) return console.error(err);
+
+								
+								var user = req.user  ? req.user : null;
+								res.render('index', { user: user, blogContent : dbContents }); // Pass the DB Results into the Renderer
+							});
 });
+
+
+
+// When User refreshes for older results
+app.get('/nav/:page_num', (req, res) => {
+	
+		
+	var aggregateQuery = Blogpost.aggregate();
+		
+	Blogpost.aggregatePaginate(	aggregateQuery, 
+								{ page: req.params.page_num, limit: RESULTS_PER_PAGE, sort: { createdAt: 'desc' }},
+								function( err, dbContents) {
+								if (err) return console.error(err);
+
+								
+								
+								
+								var user = req.user  ? req.user : null;
+								res.render('index', { user: user, blogContent : dbContents }); // Pass the DB Results into the Renderer
+							});
+})
 
 
 
@@ -124,11 +152,23 @@ app.get('/date/:date', (req, res)=>{
 	var start = utils.pullDate(req.params.date.split('-')[0], req.params.date.split('-')[1], 1);
 	var end = new Date( start.getFullYear(), start.getMonth(), 31, 23, 59);
 	
-	Blogpost.find({"createdAt": {"$gte": start, "$lt": end}}).sort({createdAt: 'desc'}).exec(function (err, dbContents) {
-		if (err) return console.error(err);
-		var user = req.user  ? req.user : null;
-		res.render('index', {user: user, blogContent : dbContents}); // Pass the DB Results into the Renderer
-	});
+	var aggregateQuery = Blogpost.aggregate([ { $match:{"createdAt": {"$gte": start, "$lt": end} } } ]);
+	
+	Blogpost.aggregatePaginate(	aggregateQuery, 
+								{ page: 1, limit: RESULTS_PER_PAGE, sort: { createdAt: 'desc' }},
+								function( err, dbContents) {
+								if (err) return console.error(err);
+
+											
+								var user = req.user  ? req.user : null;
+								res.render('index', { user: user, blogContent : dbContents }); // Pass the DB Results into the Renderer
+							});
+	
+	// Blogpost.find({"createdAt": {"$gte": start, "$lt": end}}).sort({createdAt: 'desc'}).exec(function (err, dbContents) {
+		// if (err) return console.error(err);
+		// var user = req.user  ? req.user : null;
+		// res.render('index', {user: user, blogContent : dbContents}); // Pass the DB Results into the Renderer
+	// });
 });
 
 

@@ -45,7 +45,6 @@ const imageMimeTypes = ['image/jpeg', 'image/png', 'images/gif'];
 // Brings user to create page
 // Requires authentication
 router.get('/create', checkAuthenticatedAdmin, async (req, res, next) => {
-	
 	var user = req.user  ? req.user : null;
 	res.render('blog_create_page', {user: user, blog_post: new Blogpost() });
 });
@@ -81,16 +80,17 @@ function saveBlogImage(blogPost, blogImageEncoded){
 // Blog post submission
 router.post('/', upload.array('image', 10),  async (req, res, next) => {
   
-  let blog_post = new Blogpost({
-	  title: 		req.body.title,
-	  summary:		req.body.summary,
-	  markdown:		req.body.markdown,
-	  category:		req.body.category
-  })
-  req.files.forEach( ( file ) => {
-	  blog_post.blogImages.push( "/" + file.path.replace(/\\/g, "/") );
-	  blog_post.blogImageTypes.push( file.mimetype );
-  });
+	let blog_post = new Blogpost({
+		title: 			req.body.title,
+		summary:		req.body.summary,
+		markdown:		req.body.markdown,
+		category:		req.body.category
+	})
+	// Store all passed images into the data base
+	req.files.forEach( ( file ) => {
+		blog_post.blogImages.push( "/" + file.path.replace(/\\/g, "/") );
+		blog_post.blogImageTypes.push( file.mimetype );
+	});
 
   try{
 	blog_post = await blog_post.save();
@@ -112,7 +112,7 @@ router.put('/:id', upload.array('image', 10),  async ( req, res, next ) => {
 		blog_posting.summary	= req.body.summary;
 		blog_posting.markdown 	= req.body.markdown;
 		blog_posting.category 	= req.body.category;
-		
+		// Store all passed images into the data base
 		req.files.forEach( ( file ) => {
 			  blog_posting.blogImages.push( "/" + file.path.replace(/\\/g, "/") );
 			  blog_posting.blogImageTypes.push( file.mimetype );

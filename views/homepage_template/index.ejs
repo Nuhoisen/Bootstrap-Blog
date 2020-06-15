@@ -6,14 +6,14 @@
 		<div class="container">
 		  <%- include('header'); %>
 		  <%- include('nav_scrollbar'); %>
-		  <% if ( blogContent.length ) { %>
-			<%- include('featured_post_primary', {posting: blogContent[i]}); %>
+		  <% if ( blogContent.docs.length ) { %>
+			<%- include('featured_post_primary'); %>
 		  <% } %>
 			
 		
 		  <div class="row mb-2">
-		   <% for ( var i = 1; ( i < 3 && i < blogContent.length ); i = i +1 ){ %>
-			<%- include('featured_post_secondary', {posting: blogContent[i]}); %>	
+		   <% for ( var i = 1; ( i < 3 && i < blogContent.docs.length ); i = i +1 ){ %>
+			<%- include('featured_post_secondary', {posting: blogContent.docs[i]}); %>	
 		   <% }; %>
 		  
 		  </div>
@@ -26,15 +26,26 @@
 				Recent Posts
 			  </h3>
 
-			  <% for ( var i = 3; (i < blogContent.length ); i = i +1 ){ %>
+			  <% for ( var i = 3; (i < blogContent.docs.length ); i = i +1 ){ %>
 				
-				<%- include('blog_card', { posting: blogContent[i] }); %>
+				<%- include('blog_card', { posting: blogContent.docs[i] }); %>
 			  <% }; %>
 
 
 			  <nav class="blog-pagination">
-				<a class="btn btn-outline-primary" href="#">Older</a>
-				<a class="btn btn-outline-secondary disabled" href="#" tabindex="-1" aria-disabled="true">Newer</a>
+				<% if (blogContent.hasNextPage) { %>
+					<a class="btn btn-outline-primary" href="/nav/<%= blogContent.nextPage %>">Older</a>	
+				<% } else { %>
+					<a class="btn btn-outline-secondary disabled" href="#" tabindex="-1" aria-disabled="true">Older</a>	
+				<% } %>
+				
+				<% if (blogContent.hasPrevPage) { %>
+					<a class="btn btn-outline-primary" href="/nav/<%= blogContent.prevPage %>" tabindex="-1" >Newer</a>
+				<% } else { %>
+					<a class="btn btn-outline-secondary disabled" href="#" tabindex="-1" aria-disabled="true">Newer</a>
+				<% } %>
+				
+				
 			  </nav>
 
 			</div><!-- /.blog-main -->

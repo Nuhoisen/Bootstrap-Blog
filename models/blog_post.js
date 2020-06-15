@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const aggregatePaginate = require("mongoose-aggregate-paginate-v2");
 const marked = require('marked')
 const slugify = require('slugify')
 const createDomPurify = require('dompurify')
@@ -68,6 +69,8 @@ blogPostSchema.pre('validate', function(next) {
 
 
 
+// Pagination plugin
+blogPostSchema.plugin(aggregatePaginate);
 
 
 module.exports = mongoose.model('Blogpost', blogPostSchema);

@@ -9,7 +9,7 @@
 	</div>
 	<div class="col-auto d-none d-lg-block">
 	  <svg class="bd-placeholder-img p-2" width="200" height="250" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
-		<% if (posting.blogImages.length) { %>
+		<% if (posting.blogImages && posting.blogImages.length) { %>
 			<image class="img-thumbnail" width="100%" height="100%"  xlink:href="<%= posting.blogImages[0] %>">
 		<% } %>
 		
