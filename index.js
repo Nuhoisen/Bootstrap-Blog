@@ -27,14 +27,15 @@ const blogpostRouter = require('./routes/blog_post')
 const utils			= require('./utils/utils')
 
 // DB Setup
-mongoose.connect('mongodb://localhost/blog', {
+// mongoose.connect('mongodb://localhost/blog', {
+mongoose.connect('mongodb://mongo:27017/docker-node-mongo', {
   useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true
 })
 
 // Express Setup
 const app = express()
 const RESULTS_PER_PAGE = 4
-const port = 80 
+const port = 3000 
 
 // User Meta Data
 app.locals.metaData 	= require('./static/blog_content/blog_data')
