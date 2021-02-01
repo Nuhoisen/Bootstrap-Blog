@@ -26,4 +26,23 @@ To stop running build:
 ### Open IP tables for Mongoose DB:
         iptables -A INPUT -s <ip-address> -p tcp --destination-port 27017 -m state --state NEW,ESTABLISHED -j ACCEPT
         iptables -A OUTPUT -d <ip-address> -p tcp --source-port 27017 -m state --state ESTABLISHED -j ACCEPT
-[ Source ] ( https://docs.mongodb.com/manual/tutorial/configure-linux-iptables-firewall/ )
+[ Source ]( https://docs.mongodb.com/manual/tutorial/configure-linux-iptables-firewall/ )
+
+
+
+## Firewall
+
+### ssh
+
+        ufw allow ssh
+
+### http
+
+        ufw allow http
+
+### https
+
+        ufw allow https
+
+See 
+[ Digital Oceans Guide ]( https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-20-04#step-4-%E2%80%94-setting-up-a-basic-firewall)on Firewall for further details.
