@@ -153,14 +153,6 @@ app.get('/category/:category', (req, res)=>{
 								var user = req.user  ? req.user : null;
 								res.render('index', { user: user, blogContent : dbContents }); // Pass the DB Results into the Renderer
 							});
-
-
-//	Blogpost.({ category: req.params.category }).sort({createdAt: 'desc'}).exec(function (err, dbContents) {
-//		if (err) return console.error(err);
-//		
-//		var user = req.user  ? req.user : null;
-//		res.render('index', {user: user, blogContent : dbContents}); // Pass the DB Results into the Renderer
-//	});
 });
 
 
@@ -181,14 +173,18 @@ app.get('/date/:date', (req, res)=>{
 								var user = req.user  ? req.user : null;
 								res.render('index', { user: user, blogContent : dbContents }); // Pass the DB Results into the Renderer
 							});
-	
-	// Blogpost.find({"createdAt": {"$gte": start, "$lt": end}}).sort({createdAt: 'desc'}).exec(function (err, dbContents) {
-		// if (err) return console.error(err);
-		// var user = req.user  ? req.user : null;
-		// res.render('index', {user: user, blogContent : dbContents}); // Pass the DB Results into the Renderer
-	// });
 });
 
 
+
+process.on('SIGINT', function() {
+	console.log("SIGINT detected. Closing Mongoose")
+	mongoose.disconnect();	
+ });
+ 
+mongoose.connection.on("close", function(err,conn){
+	console.log("Exit Called. Mongoose disconnected")
+	process.exit();
+});
 
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
