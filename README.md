@@ -18,6 +18,13 @@ To stop running build:
         
         docker-compose down
 
+To clean up stalled jobs:
+
+        docker system prune -a
+
+
+
+
 ## Start Up ( In Case of System Reboot )
 
 ### First initiate Mongoose Server:
@@ -29,6 +36,10 @@ To stop running build:
 [ Source ]( https://docs.mongodb.com/manual/tutorial/configure-linux-iptables-firewall/ )
 
 
+
+
+## NGINX configuration
+More information [here.]( https://www.digitalocean.com/community/tutorials/how-to-secure-a-containerized-node-js-application-with-nginx-let-s-encrypt-and-docker-compose )
 
 ## Firewall
 
