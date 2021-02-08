@@ -3,8 +3,3 @@ services:
   app:
     command: npm run production
 
-  mongo:
-    container_name: mongo
-    image: mongo
-    ports:
-      - '27017:27017'    

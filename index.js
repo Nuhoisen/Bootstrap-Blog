@@ -35,7 +35,7 @@ mongoose.connect('mongodb://mongo:27017/docker-node-mongo', {
 // Express Setup
 const app = express()
 const RESULTS_PER_PAGE = 4
-const port = 3000 
+const port = 8080 
 
 // User Meta Data
 app.locals.metaData 	= require('./static/blog_content/blog_data')
