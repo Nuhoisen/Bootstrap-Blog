@@ -7,9 +7,9 @@ This web-site now uses docker to port between platforms. Implements a mongo volu
 
 Install docker.
 
-Running debug mode, from Bootstrap-blog directory:
+Running developer mode, from Bootstrap-blog directory:
 
-        docker-compose up --build
+        docker-compose -f docker-compose.yml up --build
 Running production mode uses pm2 in detached mode:
 
          docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build --detach
