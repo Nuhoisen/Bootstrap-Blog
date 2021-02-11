@@ -1,17 +1,5 @@
 version: '3'
 services:
-  app:
-    container_name: docker-node-mongo
-    restart: always
-    ports:
-      - "8080:8080"
-    build: .
-    external_links:
-      - mongo
-    command: npm run devStart
-    networks:
-      - app-network
-
 
   mongo:
     container_name: mongo
@@ -20,6 +8,21 @@ services:
       - '27017:27017'
     networks:
       - app-network 
+  app:
+    container_name: docker-node-mongo
+    restart: always
+    ports:
+      - "8080:8080"
+    build: .
+    volumes:
+      - .:/usr/src/app
+    external_links:
+      - mongo
+    command: npm run devStart
+    networks:
+      - app-network
+
+
 
 networks:
   app-network:
