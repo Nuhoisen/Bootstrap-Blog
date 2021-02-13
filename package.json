@@ -4,7 +4,7 @@
   "description": "Blog Based off bootstrap. Designed to implement EJS.",
   "main": "index.js",
   "scripts": {
-    "devStart": "nodemon index.js  -e js,ejs,json",
+    "devStart": "nodemon -L index.js  -e js,ejs,json",
     "production": "pm2-runtime --json index.js"
   },
   "author": "",

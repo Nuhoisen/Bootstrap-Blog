@@ -13,12 +13,14 @@ services:
     restart: always
     ports:
       - "8080:8080"
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     volumes:
       - .:/usr/src/app
+      - /usr/src/app/node_modules
     external_links:
       - mongo
-    command: npm run devStart
     networks:
       - app-network
 
