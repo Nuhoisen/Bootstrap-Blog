@@ -38,7 +38,7 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /home/kelly/Bootstrap-Blog/static/
+      device: /home/kelly/Bootstrap-Blog/src/static/
       o: bind
   dhparam:
     driver: local

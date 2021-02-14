@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const crypto = require('crypto');
 
-const Token = require('../models/Token');
+const Token = require('./token');
 
 const userSigninSchema = new mongoose.Schema({
   email: {

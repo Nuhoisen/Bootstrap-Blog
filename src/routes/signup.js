@@ -4,7 +4,7 @@ const bcrypt	= require('bcrypt')
 
 
 // User Requires
-const Token 		= require('./../models/Token')
+const Token 		= require('./../models/token')
 const UserSignin 	= require('./../models/signin')
 const Subscriber 	= require('./../models/subscribe')
 const {sendEmail} 	= require('../utils/utils')
