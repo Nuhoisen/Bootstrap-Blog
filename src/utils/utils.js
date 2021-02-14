@@ -1,4 +1,5 @@
-
+// Formal Requires
+const multer = require('multer')
 const sgMail = require('@sendgrid/mail');
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -56,6 +57,38 @@ const formatArchives = function(dbContents){
 		
 		return archivedMonths;
 }
+
+
+
+
+// ------------ Multer ---------------
+const fileFilter = ( req, file, cb) => {
+	if (imageMimeTypes.includes(file.mimetype)){
+		cb( null, true);
+	}
+	else {
+		console.log("Invalid file type upload")
+		cb( null, false);
+	}	
+}
+const storage			= multer.diskStorage({
+	destination: function(req, file, cb) {
+		cb(null, './static/imgs');
+	},
+	filename: function(req, file, cb) {
+		cb(null, file.originalname )  ;
+	}
+});
+const upload 			= multer({
+									storage: storage,
+									fileFilter: fileFilter
+								})
+// -----------------------------------
+
+
+exports.storage			= storage;
+exports.upload			= upload;
+exports.fileFilter		= fileFilter;
 
 exports.formatArchives 	= formatArchives;
 exports.pullDate		= pullDate;

@@ -4,33 +4,24 @@ const bcrypt	= require('bcrypt')
 
 
 // User Requires
-const Token 	= require('./../models/Token')
+const Token 		= require('./../models/Token')
 const UserSignin 	= require('./../models/signin')
-const {sendEmail} = require('../utils/utils')
+const Subscriber 	= require('./../models/subscribe')
+const {sendEmail} 	= require('../utils/utils')
 
 
 const router 	= express.Router()
 
-if (process.env.NODE_ENV !== 'production'){
-	// Output the admin
-	// UserSignin.findOne({email : process.env.ADMIN_USER_EMAIL})
-	// .then( async exst_admin => {
-	// 		console.log("Found something");
-	// 		console.log(exst_admin);
-	// })
-	// .catch ( err  => {
-	// 		console.log("Admin not found");
-	// });
+// if (process.env.NODE_ENV !== 'production'){
 
-
-	UserSignin.deleteOne({email: process.env.ADMIN_USER_EMAIL})
-		.then(async err =>{
-			if (err){
-				console.log("Could Note Delete admin. Reason:")
-				console.log(err)
-			}
-		})
-}
+// 	UserSignin.deleteOne({email: process.env.ADMIN_USER_EMAIL})
+// 		.then(async err =>{
+// 			if (err){
+// 				console.log("Could Note Delete admin. Reason:")
+// 				console.log(err)
+// 			}
+// 		})
+// }
 
 
 //Sign Up - Go to fields page
@@ -78,9 +69,34 @@ router.post("/",  async (req, res) => {
 				
 				new_user_fields.hashed_pw = hashedPassword;
 				
+
 				let new_user = new UserSignin(new_user_fields);
+
+
+
+				// ALSO: add to subscriber list - if not in list
+				await Subscriber.find({email: new_user_fields["email"]})
+					.then(async exst_sub => {
+						if(exst_sub.length){
+							console.log(exst_sub);
+							console.log("Sub already exists");
+						}
+						else{
+							let subscriber = new Subscriber({	email: new_user_fields["email"], 
+																first_name: new_user_fields["first_name"], 
+																last_name: new_user_fields["last_name"], 
+															});
+							subscriber = await subscriber.save();
+						}
+					})				
+					.catch(async e => {
+						console.log(e);
+					});
 				
+				
+
 				try{
+					
 					new_user = await new_user.save();
 
 					await sendVerificationEmail(new_user, req, res);	// NEW ADDTION	this will generate a token and send a verification email with it, embedded

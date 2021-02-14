@@ -21,6 +21,7 @@ const Blogpost 		= require('./src/models/blog_post')
 const signinRouter 	 = require('./src/routes/signin')
 const signupRouter 	 = require('./src/routes/signup')
 const blogpostRouter = require('./src/routes/blog_post')
+const subscribeRouter= require('./src/routes/subscribe')
 
 
 // Util functions
@@ -68,7 +69,8 @@ app.set('views', [	__dirname+'/src/views/blog_template',
 					__dirname+'/src/views/metahead_template',
 					__dirname+'/src/views/shared_templates',
 					__dirname+'/src/views/signin_template',
-					__dirname+'/src/views/signup_template'])
+					__dirname+'/src/views/signup_template',
+					__dirname+'/src/views/subscribe_template'])
 app.set('view engine', 'ejs')
 
 
@@ -76,6 +78,7 @@ app.set('view engine', 'ejs')
 app.use('/signin'	, signinRouter)
 app.use('/signup'	, signupRouter)
 app.use('/blog_post', blogpostRouter)
+app.use('/subscribe', subscribeRouter)
 
 // Cache information
 Blogpost.find({}).sort({createdAt: 'desc'}).exec()

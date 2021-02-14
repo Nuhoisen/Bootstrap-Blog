@@ -63,3 +63,18 @@ More information [here.]( https://www.digitalocean.com/community/tutorials/how-t
 
 See 
 [ Digital Oceans Guide ]( https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-20-04#step-4-%E2%80%94-setting-up-a-basic-firewall)on Firewall for further details.
+
+
+### Model .env
+        SESSION_SECRET=pass
+        ADMIN_USER_EMAIL=@gmail.com
+
+        JWT_SECRET=jwt_sec
+
+        CLOUD_NAME=dxkxlckgz
+        CLOUD_API_KEY=214436356871222
+        CLOUD_API_SECRET=OO7o3vCkoTI8a6fb-oLBHyZtJew
+
+        SENDGRID_API_KEY_ORIGINAL=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
+        SENDGRID_API_KEY=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
+        FROM_EMAIL=@gmail.com

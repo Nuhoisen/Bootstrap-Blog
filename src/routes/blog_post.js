@@ -2,43 +2,31 @@
 const express 			= require('express')
 const router 			= express.Router()
 const marked 			= require('marked')
-const multer 			= require('multer')
 
 
-// ------------ Multer ---------------
-const fileFilter = ( req, file, cb) => {
-	if (imageMimeTypes.includes(file.mimetype)){
-		cb( null, true);
-	}
-	else {
-		console.log("Invalid file type upload")
-		cb( null, false);
-	}	
-}
-const storage			= multer.diskStorage({
-	destination: function(req, file, cb) {
-		cb(null, './static/imgs');
-	},
-	filename: function(req, file, cb) {
-		cb(null, file.originalname )  ;
-	}
-});
-const upload 			= multer({
-									storage: storage,
-									fileFilter: fileFilter
-								})
-// -----------------------------------
+
 
 // User Requires
 const Blogpost 	= require('./../models/blog_post')
-
-
+const Subscriber 	= require('./../models/subscribe')
+const {sendEmail,upload} 	= require('../utils/utils')
 
 // Util functions
 const utils			= require('../utils/utils')
 
 // User defined types
 const imageMimeTypes = ['image/jpeg', 'image/png', 'images/gif'];
+
+
+
+// if (process.env.NODE_ENV !== 'production'){
+// Subscriber.find({})
+// 		.then( async subscribers => {
+// 			subscribers.forEach( async (sub)=>{
+// 				console.log(sub)
+// 			})
+// 		})
+// }
 
 
 // Blog post get,
@@ -92,9 +80,25 @@ router.post('/', upload.array('image', 10),  async (req, res, next) => {
 		blog_post.blogImageTypes.push( file.mimetype );
 	});
 
+
+
   try{
 	blog_post = await blog_post.save();
 	res.redirect(`/blog_post/${blog_post.id}`);
+
+
+	// Notify Subscribers
+	await Subscriber.find({})
+		.then( async subscribers => {
+			subscribers.forEach( async (sub)=>{
+				await notifySubsribers(sub, blog_post, req, res);
+			})
+		})
+		.catch( async e => {
+			return null;
+		});
+
+
   }
   catch(e){
 		console.log(e);
@@ -174,5 +178,28 @@ router.get('/edit/:id',  async(req, res) => {
 		})
 })
 
+
+
+// Used to send email to verified user
+async function notifySubsribers(subscriber, blog_post ,req, res){
+    try{
+        let subject = "Latest Post: " + blog_post.title + "!";
+        let to = subscriber.email;
+        let from = process.env.FROM_EMAIL;
+        let link="http://"+req.headers.host+`/blog_post/${blog_post.id}`;
+		let homepage="http://"+req.headers.host;
+		subscriber.first_name = (subscriber.first_name) ? subscriber.first_name : "New Blogger";
+        let html = `<p>Hi ${subscriber.first_name}!<p><p>Check out my latest blog post <a href="${link}">here!</a></p>
+                    This and many other can be found at <a href="${homepage}">${homepage}</a>!</p>
+					<br><p>Thanks!</p>
+                  <br><p>If you did not request this, please ignore this email.</p>`;
+
+        console.log("Sending Email");
+	    await sendEmail({to, from, subject, html});
+	    console.log("Successfully sent email");	
+    }catch (error) {
+        res.status(500).json({message: error.message})
+    }
+}
 
 module.exports = router
