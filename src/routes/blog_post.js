@@ -186,8 +186,8 @@ async function notifySubsribers(subscriber, blog_post ,req, res){
         let subject = "Latest Post: " + blog_post.title + "!";
         let to = subscriber.email;
         let from = process.env.FROM_EMAIL;
-        let link="http://"+req.headers.host+`/blog_post/${blog_post.id}`;
-		let homepage="http://"+req.headers.host;
+        let link="http://"+process.env.SITE_DOMAIN+`/blog_post/${blog_post.id}`;
+		let homepage="http://"+process.env.SITE_DOMAIN;
 		subscriber.first_name = (subscriber.first_name) ? subscriber.first_name : "New Blogger";
         let html = `<p>Hi ${subscriber.first_name}!<p><p>Check out my latest blog post <a href="${link}">here!</a></p>
                     This and many other can be found at <a href="${homepage}">${homepage}</a>!</p>
