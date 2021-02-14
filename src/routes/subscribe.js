@@ -76,7 +76,7 @@ async function sendThankYouEmail(subscriber, req, res){
         let subject = "Thanks For Subscribing";
         let to = subscriber.email;
         let from = process.env.FROM_EMAIL;
-        let link="http://"+req.headers.host;
+        let link="http://"+process.env.SITE_DOMAIN;
 		subscriber.first_name = (subscriber.first_name) ? subscriber.first_name : "New Blogger";
         let html = `<p>Hi ${subscriber.first_name}!<p><br><p>Thanks For Subscribing.</p>
                     For more updates visit <a href="${link}">${link}</a>.</p> 

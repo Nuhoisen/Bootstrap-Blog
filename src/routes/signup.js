@@ -164,7 +164,8 @@ async function sendVerificationEmail(user, req, res){
         let subject = "Account Verification Token";
         let to = user.email;
         let from = process.env.FROM_EMAIL;
-        let link="http://"+req.headers.host+"/signup/api/auth/verify/"+token.token;
+		
+        let link="http://"+process.env.SITE_DOMAIN+"/signup/api/auth/verify/"+token.token;
 		console.log("Email Link: " + link)
         let html = `<p>Hi ${user.user_name}<p><br><p>Please click on the following <a href="${link}">link</a> to verify your account.</p> 
                   <br><p>If you did not request this, please ignore this email.</p>`;
