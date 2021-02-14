@@ -1,3 +1,17 @@
+
+const sgMail = require('@sendgrid/mail');
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+const sendEmail = function(mailOptions){
+    return new Promise((resolve, reject) => {
+        sgMail.send(mailOptions, (error, result) => {
+            if (error) return reject(error);
+            return resolve(result);
+        });
+    });
+}
+
 const pullDate = function( month, year , day){
 	var monthLookup = {
 		"january":  0,
@@ -45,3 +59,4 @@ const formatArchives = function(dbContents){
 
 exports.formatArchives 	= formatArchives;
 exports.pullDate		= pullDate;
+exports.sendEmail		= sendEmail;

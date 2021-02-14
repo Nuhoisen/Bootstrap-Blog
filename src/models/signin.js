@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
+const crypto = require('crypto');
 
+const Token = require('../models/Token');
 
 const userSigninSchema = new mongoose.Schema({
   email: {
@@ -31,7 +33,12 @@ const userSigninSchema = new mongoose.Schema({
 	type: Boolean,
 	required: true,
 	default: false
-  }
+  },
+  
+  isVerified: {
+    type: Boolean,
+    default: false
+  },
   
 })
 
@@ -41,5 +48,13 @@ userSigninSchema.pre('validate', function(next) {
 })
 
 
+userSigninSchema.methods.generateVerificationToken = function() {
+  let payload = {
+      userId: this._id,
+      token: crypto.randomBytes(20).toString('hex')
+  };
+
+  return new Token(payload);
+};
 
 module.exports = mongoose.model('UserSignin', userSigninSchema)

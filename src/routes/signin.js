@@ -48,7 +48,6 @@ initializePassport(
 
 );
 
-
 function checkNotAuthenticated(req, res, next) {
 	console.log("Checking if user is already authenticated middleware")
 	if (req.isAuthenticated()){

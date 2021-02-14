@@ -1,3 +1,9 @@
+### This is forked version of master blog intending to serve as a contracting site.
+## For information on merging this branch with master. See source:
+https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging
+
+
+
 ## This is a general template for a blog based on Bootstrap
 
         Tailor by modifying fields in blog_data.json in ./statc/blog_content
