@@ -2,6 +2,10 @@
 const multer = require('multer')
 const sgMail = require('@sendgrid/mail');
 
+const imageMimeTypes = ['image/jpeg', 'image/png', 'images/gif'];
+
+
+
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const sendEmail = function(mailOptions){
@@ -73,7 +77,7 @@ const fileFilter = ( req, file, cb) => {
 }
 const storage			= multer.diskStorage({
 	destination: function(req, file, cb) {
-		cb(null, './static/imgs');
+		cb(null, './src/static/imgs');
 	},
 	filename: function(req, file, cb) {
 		cb(null, file.originalname )  ;
@@ -93,3 +97,4 @@ exports.fileFilter		= fileFilter;
 exports.formatArchives 	= formatArchives;
 exports.pullDate		= pullDate;
 exports.sendEmail		= sendEmail;
+exports.imageMimeTypes	= imageMimeTypes;

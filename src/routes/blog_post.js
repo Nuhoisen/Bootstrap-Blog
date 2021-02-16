@@ -9,13 +9,11 @@ const marked 			= require('marked')
 // User Requires
 const Blogpost 	= require('./../models/blog_post')
 const Subscriber 	= require('./../models/subscribe')
-const {sendEmail,upload} 	= require('../utils/utils')
+const {sendEmail,imageMimeTypes,upload} 	= require('../utils/utils')
 
-// Util functions
-const utils			= require('../utils/utils')
 
 // User defined types
-const imageMimeTypes = ['image/jpeg', 'image/png', 'images/gif'];
+
 
 
 
@@ -84,8 +82,6 @@ router.post('/', upload.array('image', 10),  async (req, res, next) => {
 
   try{
 	blog_post = await blog_post.save();
-	res.redirect(`/blog_post/${blog_post.id}`);
-
 
 	// Notify Subscribers
 	await Subscriber.find({})
@@ -98,6 +94,7 @@ router.post('/', upload.array('image', 10),  async (req, res, next) => {
 			return null;
 		});
 
+	res.redirect(`/blog_post/${blog_post.id}`);
 
   }
   catch(e){
@@ -184,9 +181,9 @@ router.get('/edit/:id',  async(req, res) => {
 async function notifySubsribers(subscriber, blog_post ,req, res){
     try{
         let subject = "Latest Post: " + blog_post.title + "!";
-        let to = subscriber.email;
+        let to   = subscriber.email;
         let from = process.env.FROM_EMAIL;
-        let link="http://"+process.env.SITE_DOMAIN+`/blog_post/${blog_post.id}`;
+        let link ="http://"+process.env.SITE_DOMAIN+`/blog_post/${blog_post.id}`;
 		let homepage="http://"+process.env.SITE_DOMAIN;
 		subscriber.first_name = (subscriber.first_name) ? subscriber.first_name : "New Blogger";
         let html = `<p>Hi ${subscriber.first_name}!<p><p>Check out my latest blog post <a href="${link}">here!</a></p>

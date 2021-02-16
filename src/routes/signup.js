@@ -171,11 +171,10 @@ async function sendVerificationEmail(user, req, res){
                   <br><p>If you did not request this, please ignore this email.</p>`;
 
         console.log("Sending Email");
-	await sendEmail({to, from, subject, html});
-	console.log("Successfully sent email");	
-        // res.status(200).json({message: 'A verification email has been sent to ' + user.email + '.'});		
+		await sendEmail({to, from, subject, html});
+		console.log("Successfully sent email");	
 
-    }catch (error) {
+    } catch (error) {
 	console.log("Error occurred");
         res.status(500).json({message: error.message})
     }

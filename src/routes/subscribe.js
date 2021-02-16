@@ -19,8 +19,6 @@ const router 	= express.Router()
 // 		})
 // }
 
-
-
 // Subscribe Get - Render Page
 router.get("/", (req,res)=>{
 	console.log("In subscribe get")

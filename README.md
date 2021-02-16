@@ -66,15 +66,20 @@ See
 
 
 ### Model .env
-        SESSION_SECRET=pass
-        ADMIN_USER_EMAIL=@gmail.com
+        JWT_SECRET=<anything>
 
-        JWT_SECRET=jwt_sec
+        MONGO_LOCAL_CONN_URL=mongodb://mongo_email_server:27017/docker-email
+        SESSION_SECRET=<anything>
 
-        CLOUD_NAME=dxkxlckgz
-        CLOUD_API_KEY=214436356871222
-        CLOUD_API_SECRET=OO7o3vCkoTI8a6fb-oLBHyZtJew
+        ADMIN_USER_EMAIL=kellyhonsing@gmail.com
 
-        SENDGRID_API_KEY_ORIGINAL=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
-        SENDGRID_API_KEY=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
-        FROM_EMAIL=@gmail.com
+        CLOUD_NAME=<generate_this>
+        CLOUD_API_KEY=<generate_this>
+        CLOUD_API_SECRET=<generate_this>
+
+        SENDGRID_API_KEY_ORIGINAL=<generate_this>
+        SENDGRID_API_KEY=<generate_this>
+        FROM_EMAIL=kellyhonsing@gmail.com
+
+        AWSAccessKeyId=<generate_this>
+        AWSSecretKey=<generate_this>
