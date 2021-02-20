@@ -16,7 +16,7 @@ AWS.config.update({
 
 let s3 = new AWS.S3();
 
-const getImage = async function(image_name){
+const getImage = function(image_name){
 	const data = s3.getObject({
 		Bucket: process.env.AWSBucketStorageName,
 		Key:	image_name
@@ -26,8 +26,6 @@ const getImage = async function(image_name){
 
 
 const upload = async function(file){
-    // const fileContent = fs.readFileSync(file_name);
-
     const data = s3.upload({
         Bucket: process.env.AWSBucketStorageName,
         Key: file.originalname,

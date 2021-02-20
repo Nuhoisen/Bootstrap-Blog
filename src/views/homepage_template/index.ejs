@@ -53,6 +53,10 @@
 			<aside class="col-md-4 blog-sidebar">
 			  <div class="p-4 mb-3 bg-light rounded">
 				<h4 class="font-italic">About</h4>
+				<!-- <img class="w-75 img-responsive rounded d-flex justify-content-center" src="/src/static/imgs/profile.jpg"> -->
+				<% if (metaData['profile_img']) { %>
+					<img class="w-75 img-responsive rounded d-flex justify-content-center" src="data:image/jpeg;base64,<%= metaData['profile_img'] %>"/>
+				<% } %>
 				<p class="mb-0"><%-metaData['bio'] %></p>
 			  </div>
 

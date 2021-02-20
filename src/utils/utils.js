@@ -83,15 +83,15 @@ const storage			= multer.diskStorage({
 		cb(null, file.originalname )  ;
 	}
 });
-const upload 			= multer({
-									storage: storage,
+const localUpload 			= multer({
+									// storage: storage,
 									fileFilter: fileFilter
 								})
 // -----------------------------------
 
 
 exports.storage			= storage;
-exports.upload			= upload;
+exports.localUpload			= localUpload;
 exports.fileFilter		= fileFilter;
 
 exports.formatArchives 	= formatArchives;

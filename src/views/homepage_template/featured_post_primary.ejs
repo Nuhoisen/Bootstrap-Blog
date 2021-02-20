@@ -9,9 +9,12 @@
     <div class="col-md-6 px-0">
 		
 		
-			<% if (blogContent.docs[0].blogImages ) { %>
-				<img class="w-75 img-responsive rounded" src="<%= blogContent.docs[0].blogImages[0] %>">
-			<% } %>
+			<!-- <% if (blogContent.docs[0].blogImageContents ) { %> -->
+        
+        <img class="w-75 img-responsive rounded" src="data:image/<%= blogContent.docs[0].blogImageTypes[0] %>;base64,<%= blogContent.docs[0].blogImageContents[0] %>"/>
+        <!-- <img class="w-75 img-responsive rounded" src="data:image/jpeg;base64,<%= blogContent.docs[0].blogImageContents[0] %>"/> -->
+				<!-- <img class="w-75 img-responsive rounded"   src="<%= blogContent.docs[0].blogImages[0] %>"> -->
+			<!-- <% } %> -->
 		
     </div>
 	<!-- </svg> -->

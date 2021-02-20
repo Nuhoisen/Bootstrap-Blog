@@ -14,5 +14,5 @@ COPY . .
 # COPY --chown=node:node . .
 
 # Exports
-EXPOSE 8080 
+EXPOSE 8080
 CMD ["npm", "run", "devStart"]
