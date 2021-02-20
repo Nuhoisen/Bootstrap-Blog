@@ -4,11 +4,14 @@
   "description": "Blog Based off bootstrap. Designed to implement EJS.",
   "main": "index.js",
   "scripts": {
-    "devStart": "nodemon index.js"
+    "devStart": "nodemon -L server.js  -e js,ejs,json",
+    "production": "pm2-runtime --json server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@sendgrid/mail": "^7.4.2",
+    "aws-sdk": "^2.844.0",
     "bcrypt": "^5.0.0",
     "dompurify": "^2.0.11",
     "ejs": "^3.1.3",

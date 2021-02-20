@@ -1,0 +1,31 @@
+version: '3'
+services:
+
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+      - '27017:27017'
+    networks:
+      - app-network 
+  app:
+    container_name: docker-node-mongo
+    restart: always
+    ports:
+      - "8080:8080"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    external_links:
+      - mongo
+    networks:
+      - app-network
+
+
+
+networks:
+  app-network:
+    driver: bridge

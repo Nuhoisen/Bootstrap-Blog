@@ -1,0 +1,21 @@
+ <div class="row jumbotron p-4 p-md-5 text-white rounded bg-dark">
+    <div class="col-md-6 px-0">
+      <h1 class="display-4 font-italic"><%= blogContent.docs[0].title %></h1>
+      <p class="lead my-3"><%= blogContent.docs[0].summary %></p>
+      <p class="lead mb-0"><a href="/blog_post/<%=blogContent.docs[0]._id %>" class="text-white font-weight-bold">Continue reading...</a></p>
+    </div>
+	
+	<!-- <svg class="bd-placeholder-img p-2" width="200" height="250" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"> -->
+    <div class="col-md-6 px-0">
+		
+		
+			<!-- <% if (blogContent.docs[0].blogImageContents ) { %> -->
+        
+        <img class="w-75 img-responsive rounded" src="data:image/<%= blogContent.docs[0].blogImageTypes[0] %>;base64,<%= blogContent.docs[0].blogImageContents[0] %>"/>
+        <!-- <img class="w-75 img-responsive rounded" src="data:image/jpeg;base64,<%= blogContent.docs[0].blogImageContents[0] %>"/> -->
+				<!-- <img class="w-75 img-responsive rounded"   src="<%= blogContent.docs[0].blogImages[0] %>"> -->
+			<!-- <% } %> -->
+		
+    </div>
+	<!-- </svg> -->
+  </div>
