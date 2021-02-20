@@ -9,11 +9,20 @@ const marked 			= require('marked')
 // User Requires
 const Blogpost 	= require('./../models/blog_post')
 const Subscriber 	= require('./../models/subscribe')
-const {sendEmail,imageMimeTypes,upload} 	= require('../utils/utils')
+const {sendEmail,imageMimeTypes,localUpload} 	= require('../utils/utils')
+const {upload} 	= require('../utils/s3')
 
 
 // User defined types
 
+if (process.env.NODE_ENV !== 'production'){
+	Blogpost.find({})
+		.then( async postings => {
+			postings.forEach( async (post)=>{
+				console.log(post)
+			})
+		})
+}
 
 
 
@@ -64,8 +73,9 @@ function saveBlogImage(blogPost, blogImageEncoded){
 }
 
 // Blog post submission
-router.post('/', upload.array('image', 10),  async (req, res, next) => {
-  
+// router.post('/', upload.array('image', 10),  async (req, res, next) => {
+router.post('/', localUpload.array('image', 10),  async (req, res, next) => {
+
 	let blog_post = new Blogpost({
 		title: 			req.body.title,
 		summary:		req.body.summary,
@@ -73,11 +83,15 @@ router.post('/', upload.array('image', 10),  async (req, res, next) => {
 		category:		req.body.category
 	})
 	// Store all passed images into the data base
+	
 	req.files.forEach( ( file ) => {
-		blog_post.blogImages.push( "/" + file.path.replace(/\\/g, "/") );
+		console.log(file)
+		blog_post.blogImages.push( file.originalname);
 		blog_post.blogImageTypes.push( file.mimetype );
+		upload(file).then().catch(e=>{
+			console.log(e)
+		});	// s3 upload
 	});
-
 
 
   try{
@@ -104,7 +118,7 @@ router.post('/', upload.array('image', 10),  async (req, res, next) => {
 })
 
 // Blog post edit submission
-router.put('/:id', upload.array('image', 10),  async ( req, res, next ) => {
+router.put('/:id', localUpload.array('image', 10),  async ( req, res, next ) => {
 	let blog_posting ;
 	try{
 		blog_posting  = await Blogpost.findById(req.params.id);

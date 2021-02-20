@@ -101,7 +101,8 @@ router.post("/",  async (req, res) => {
 
 					await sendVerificationEmail(new_user, req, res);	// NEW ADDTION	this will generate a token and send a verification email with it, embedded
 
-					console.log("New User successfully saved");
+					// console.log("New User successfully saved");
+					req.flash('info', 'New Registered User. Check your email for verification link. If not found, be sure to check spam folder too.')
 					res.redirect('/signin');
 				}
 				catch(e){
