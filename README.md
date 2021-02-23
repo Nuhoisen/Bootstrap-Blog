@@ -33,7 +33,7 @@ To clean up stalled jobs:
 
 ## Start Up ( In Case of System Reboot )
 
-### First initiate Mongoose Server:
+### First initiate Mongoose Server (obsolete):
         systemctl start mongod
 
 ### Open IP tables for Mongoose DB:
