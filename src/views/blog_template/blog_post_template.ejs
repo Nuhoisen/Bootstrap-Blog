@@ -29,8 +29,9 @@
 					<%- blog_post.sanitizedHtml %>
 				</div><!-- /.blog-post -->
 			</main><!-- /.container -->
+			<%- include('comment_block',  { posting: blog_post, user: user}); %>
 			
 			<%- include('footer'); %>
-
+			
 		</body>
 </html>

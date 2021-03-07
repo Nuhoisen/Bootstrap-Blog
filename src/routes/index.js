@@ -5,17 +5,19 @@ const methodOverride 	= require('method-override')
 ///////// Local Requires /////////////
 
 // Routes
-const signupRouter = require('./signup');
-const signinRouter = require('./signin');
-const blogpostRouter = require('./blog_post')
-const subscribeRouter= require('./subscribe')
+const signupRouter      = require('./signup');
+const signinRouter      = require('./signin');
+const blogpostRouter    = require('./blog_post')
+const subscribeRouter   = require('./subscribe')
+const commentRouter     = require('./comment')
+const replyRouter       = require('./reply')
 
 // Models
 const Blogpost = require('./../models/blog_post')
 
 // Utils
 // Util functions
-const {pullDate}			            = require('./../utils/utils')
+const {pullDate}			    = require('./../utils/utils')
 const {getImage,encode}	        = require('./../utils/s3')
 
 const RESULTS_PER_PAGE = 4
@@ -200,11 +202,12 @@ module.exports = app => {
 
 
     //Blog post router. Handles post requests
-    app.use('/signin'	, signinRouter)
-    app.use('/signup'	, signupRouter)
-    app.use('/blog_post', blogpostRouter)
-    app.use('/subscribe', subscribeRouter)
-
+    app.use('/signin'	,   signinRouter)
+    app.use('/signup'	,   signupRouter)
+    app.use('/blog_post',   blogpostRouter)
+    app.use('/subscribe',   subscribeRouter)
+    app.use('/comment',     commentRouter)
+    app.use('/reply',       replyRouter)
 
     // app.use('/api/auth', auth);
     // app.use('/api/user', authenticate, user);

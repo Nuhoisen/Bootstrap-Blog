@@ -1,10 +1,10 @@
-const mongoose = require('mongoose')
+const mongoose          = require('mongoose')
 const aggregatePaginate = require("mongoose-aggregate-paginate-v2");
-const marked = require('marked')
-const slugify = require('slugify')
-const createDomPurify = require('dompurify')
-const { JSDOM } = require('jsdom')
-const dompurify = createDomPurify(new JSDOM().window)
+const marked            = require('marked')
+const slugify           = require('slugify')
+const createDomPurify   = require('dompurify')
+const { JSDOM }         = require('jsdom')
+const dompurify         = createDomPurify(new JSDOM().window)
 
 
 const blogPostSchema = new mongoose.Schema({

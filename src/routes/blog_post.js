@@ -7,25 +7,27 @@ const marked 			= require('marked')
 
 
 // User Requires
-const Blogpost 	= require('./../models/blog_post')
-const Subscriber 	= require('./../models/subscribe')
+const Blogpost 									= require('./../models/blog_post')
+const Comment 									= require('./../models/comment')
+const Reply 									= require('./../models/reply')
+const Subscriber 								= require('./../models/subscribe')
 const {sendEmail,imageMimeTypes,localUpload} 	= require('../utils/utils')
-const {upload} 	= require('../utils/s3')
+const {upload} 									= require('../utils/s3')
 
 
 // User defined types
 
-if (process.env.NODE_ENV !== 'production'){
-	Blogpost.find({})
-		.then( async postings => {
-			postings.forEach( async (post)=>{
-				console.log(post)
-			})
-		})
-}
+// if (process.env.NODE_ENV !== 'production'){
+// 	Blogpost.find({})
+// 		.then( async postings => {
+// 			postings.forEach( async (post)=>{
+// 				console.log(post)
+// 			})
+// 		})
+// }
 
 
-
+//  Log subscribers
 // if (process.env.NODE_ENV !== 'production'){
 // Subscriber.find({})
 // 		.then( async subscribers => {
@@ -73,7 +75,6 @@ function saveBlogImage(blogPost, blogImageEncoded){
 }
 
 // Blog post submission
-// router.post('/', upload.array('image', 10),  async (req, res, next) => {
 router.post('/', localUpload.array('image', 10),  async (req, res, next) => {
 
 	let blog_post = new Blogpost({
@@ -157,11 +158,42 @@ router.get('/:id', async (req, res) => {
   // If it's found, load the blogpost.
   // Otherwise, redirect home.
   Blogpost.findById(req.params.id)
-	.then( blog_posting =>{
+	.then( async blog_posting => {
 		var user = req.user  ? req.user : null;	
-		res.render('blog_post_template', {blog_post: blog_posting, user: user});
+		
+		var promises = []
+		
+		Comment.find({ assocBlogPostId: blog_posting._id})
+			.then( async comments =>{
+				blog_posting['comments'] = comments;
+				
+				comments.forEach( comment => {
+					console.log("Entering for loop")
+					console.log(blog_posting)
+					const query = Reply.find( {parentCommentId: comment._id} );
+
+					var promise = query.exec();
+					promise.then( replies => { 
+						console.log("Replies")
+						console.log(replies)
+						comment['replies'] = replies;
+					} )
+					.catch( e =>{ console.log(e) } );
+
+					promises.push(promise);
+				})
+
+				// Let all promises resolve
+				await Promise.all(promises);
+				console.log("All promises resolved")
+				console.log(comments)
+				// 
+				res.render('blog_post_template', {blog_post: blog_posting, user: user});
+			})
+
 	})
 	.catch( e => {
+		console.log("Error Occurred: "+ String(e))
 		res.redirect('/');
 	});
 });
@@ -212,5 +244,10 @@ async function notifySubsribers(subscriber, blog_post ,req, res){
         res.status(500).json({message: error.message})
     }
 }
+
+
+
+
+	
 
 module.exports = router

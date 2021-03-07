@@ -35,6 +35,7 @@ app.locals.pageIndex	= 0
 
 // App Setup
 app.use(express.urlencoded({extended: false}));
+app.use(express.json());
 app.use(flash());
 app.use(session({
 	secret: process.env.SESSION_SECRET,
@@ -61,6 +62,7 @@ app.set('views', [	__dirname+'/src/views/blog_template',
 					__dirname+'/src/views/shared_templates',
 					__dirname+'/src/views/signin_template',
 					__dirname+'/src/views/signup_template',
+					__dirname+'/src/views/comments_template',
 					__dirname+'/src/views/subscribe_template'])
 app.set('view engine', 'ejs')
 

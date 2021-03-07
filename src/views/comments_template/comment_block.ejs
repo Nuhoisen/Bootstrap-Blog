@@ -1,0 +1,60 @@
+<div class="comment-container mb-5 mt-5">
+    
+    <div class="card">
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="text-center mb-5">Comments</h3>
+                <div class="row">
+                    <div class="col-md-12">
+                        
+                        <% for ( var i = 0; ( posting.comments && i <  posting.comments.length ); i = i +1 ){ %>
+                            <%- include('comment', {comment:  posting.comments[i], user: user}); %>	    
+                        <% }; %>
+                        
+                        
+                        <div class="media mt-4"> 
+                            <img class="mr-3 rounded-circle" alt="Bootstrap Media Preview" src="https://i.imgur.com/xELPaag.jpg" />
+                            <div class="media-body">
+                                <div class="row">
+                                    <div class="col-8 d-flex">
+                                        <h5>Shad f</h5> <span>- 2 hours ago</span>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="pull-right reply"> <a href="#"><span><i class="fa fa-reply"></i> reply</span></a> </div>
+                                    </div>
+                                </div> The .32 and 1.10.33. <div class="media mt-4"> <a class="pr-3" href="#"><img class="rounded-circle" alt="Bootstrap Media Another Preview" src="https://i.imgur.com/nUNhspp.jpg" /></a>
+                                    <div class="media-body">
+                                        <div class="row">
+                                            <div class="col-12 d-flex">
+                                                <h5>Andy flowe</h5> <span>- 5 hours ago</span>
+                                            </div>
+                                        </div> Cras 
+                                    </div>
+                                </div>
+                                <div class="media mt-3"> <a class="pr-3" href="#"><img class="rounded-circle" alt="Bootstrap Media Another Preview" src="https://i.imgur.com/HjKTNkG.jpg" /></a>
+                                    <div class="media-body">
+                                        <div class="row">
+                                            <div class="col-12 d-flex">
+                                                <h5>Simp f</h5> <span>- 5 hours ago</span>
+                                            </div>
+                                        </div> a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur
+                                    </div>
+                                </div>
+                                <div class="media mt-3"> <a class="pr-3" href="#"><img class="rounded-circle" alt="Bootstrap Media Another Preview" src="https://i.imgur.com/nAcoHRf.jpg" /></a>
+                                    <div class="media-body">
+                                        <div class="row">
+                                            <div class="col-12 d-flex">
+                                                <h5>John Smith</h5> <span>- 4 hours ago</span>
+                                            </div>
+                                        </div> the majority have suffered alteration in some form, by injected humour, or randomised words.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('create_comment', {posting: posting}); %>
+</div>

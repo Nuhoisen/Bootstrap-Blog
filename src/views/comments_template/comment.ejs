@@ -1,0 +1,44 @@
+<div class="media"> 
+    <img class="mr-3 thumbnail" alt="Bootstrap Media Preview" src="https://i.imgur.com/stD0Q19.jpg" />
+    <div class="media-body">                     
+        <div class="row">
+            <div class="col-8 d-flex">
+                <h5><%= comment.posterUserName %></h5> <span>- <%= comment.createdAt.toLocaleDateString() %></span>
+            </div>
+            <div class="col-4">
+                <div class="pull-right reply" onclick="document.getElementById('comment-bar-<%- comment._id %>').style.display = 'flex '; "> <a href="#"><span><i class="fa fa-reply"></i> reply</span></a> </div>
+            </div>
+        </div> <%= comment.body %> 
+
+        <% if (user) { %>
+            <% if (user.is_admin) { %>
+                <form class="d-inline" action="/comment/<%- comment._id %>?_method=DELETE" method="POST">
+                    <button type="submit" class="btn btn-danger  btn-outline-secondary" style="color: #6c757d;">Delete</button>
+                </form>
+                
+                <!-- <form class="d-inline"  action="/blog_post/edit/<%- blog_post.id %>" method="GET">
+                    <button type="submit" class="btn btn-warning  btn-outline-secondary" style="color: #6c757d;">Edit</button>
+                </form> -->
+                
+            <% } %>
+        <% } %>
+
+        <% for ( var i = 0; ( comment.replies && i < comment.replies.length ); i = i +1 ){ %>
+            <%- include('reply', {reply: comment.replies[i]}); %>	    
+        <% }; %>
+
+        <div class="flex-row add-comment-section mt-4 mb-4" id="comment-bar-<%- comment._id %>" style="display: none;">
+            <img class="img-fluid img-responsive rounded-circle mr-2" src="https://i.imgur.com/qdiP4DB.jpg" width="38">
+            
+            <form action="/reply/<%- comment._id%>" method="POST">
+                <input  name="markdown" id="markdown" type="text" class="form-control mr-3" placeholder="Add comment">
+                <button class="btn btn-secondary" onclick="document.getElementById('comment-bar-<%- comment._id %>').style.display = 'none '; "  type="button"  >Cancel</button>
+                <button class="btn btn-primary" type="submit">Reply</button>
+
+            </form>
+            
+        </div>
+
+        
+    </div>
+</div>
