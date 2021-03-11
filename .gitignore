@@ -3,5 +3,4 @@ node_modules
 mybackup
 src/static/imgs/*
 scripts/utils/mybackup/*
-src/static/imgs/*
 s3rootkey.csv
