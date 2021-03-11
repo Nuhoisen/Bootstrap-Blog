@@ -68,7 +68,17 @@ See
 ### Model .env
         JWT_SECRET=<anything>
 
-        MONGO_LOCAL_CONN_URL=mongodb://mongo_email_server:27017/docker-email
+        MONGO_INITDB_DATABASE=<database_name>
+
+        MONGO_INITDB_ROOT_USERNAME=<admin_name>
+        MONGO_INITDB_ROOT_PASSWORD=<admin_password>
+        MONGO_DATABASE_USERNAME=<user_name>
+        MONGO_DATABASE_PASSWORD=<user_pw>
+
+        MONGO_URI=mongodb://${MONGO_DATABASE_USERNAME}:${MONGO_DATABASE_PASSWORD}@mongo:27017/${MONGO_INITDB_DATABASE}
+
+
+
         SESSION_SECRET=<anything>
 
         ADMIN_USER_EMAIL=kellyhonsing@gmail.com
@@ -84,6 +94,9 @@ See
         AWSAccessKeyId=<generate_this>
         AWSSecretKey=<generate_this>
 
+        
+        STATIC_SRC_DIR=<dir_to_project>/src/static
+        DHPARAM_DIR=<dir_to_project>/dhparam/
 
 ### Database Backup & Restoration
 See README.md inside scripts/utils for further details. General procedures outlined here:
