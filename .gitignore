@@ -1,7 +1,7 @@
 .env
 node_modules
-static/imgs/*
 mybackup
+src/static/imgs/*
 scripts/utils/mybackup/*
 src/static/imgs/*
 s3rootkey.csv
