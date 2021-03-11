@@ -6,6 +6,9 @@ services:
     image: mongo
     ports:
       - '27017:27017'
+    volumes: 
+      - ./docker_scripts/:/docker-entrypoint-initdb.d
+    env_file: .env
     networks:
       - app-network 
   app:
@@ -21,6 +24,7 @@ services:
       - /usr/src/app/node_modules
     external_links:
       - mongo
+    env_file: .env
     networks:
       - app-network
 
