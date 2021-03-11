@@ -37,7 +37,9 @@ module.exports = app => {
             async function( err, dbContents) {
                 if (err) return console.error(err);
                 
-                ///////////////// EDIT  THIS /////////////////////
+                ///////////////////////////////////////////////////////
+                // CHANGE ME LATER - Put into Function to reduce code reuse//
+                ///////////////// Retrieve Images/////////////////////
                 var promises= [];
                 // Fetch all the images names from the s3 bucket and add their contents to object
                 dbContents.docs.forEach( posting => {
@@ -57,6 +59,8 @@ module.exports = app => {
 
                 // Later Resolution
                 await Promise.all(promises);
+                //////////////////// Images Retrieved ///////////////////
+
                 var user = req.user  ? req.user : null;									
                 res.render('index', { user: user, blogContent : dbContents }); // Pass the DB Results into the Renderer
         });
@@ -70,8 +74,34 @@ module.exports = app => {
         Blogpost.aggregatePaginate(	
             aggregateQuery, 
             { page: 1 , limit: RESULTS_PER_PAGE, sort: { createdAt: 'desc' }},
-            function( err, dbContents) {
+            async function( err, dbContents) {
             if (err) return console.error(err); 
+
+            ///////////////////////////////////////////////////////
+            // CHANGE ME LATER - Put into Function to reduce code reuse//
+            ///////////////// Retrieve Images/////////////////////
+            var promises= [];
+            // Fetch all the images names from the s3 bucket and add their contents to object
+            dbContents.docs.forEach( posting => {
+                // There are images
+                if (posting.blogImages.length > 0){
+                    // Create an array to hold bytes
+                    posting.blogImageContents = [];
+                    posting.blogImages.forEach( image_name => {
+                        // Call s3 method
+                        var promise = getImage(image_name)
+                            .then((img)=>{ posting.blogImageContents.push(encode(img.Body)) }).catch( e => {console.log(e); })
+                        // Push promise onto stack for later resolution
+                        promises.push(promise);
+                    })
+                }
+            });
+
+            // Later Resolution
+            await Promise.all(promises);
+            //////////////////// Images Retrieved ///////////////////
+
+
             var user = req.user  ? req.user : null;
             res.render('index', { user: user, blogContent : dbContents }); // Pass the DB Results into the Renderer
         });
@@ -88,8 +118,32 @@ module.exports = app => {
         Blogpost.aggregatePaginate(	
             aggregateQuery, 
             { page: 1, limit: RESULTS_PER_PAGE, sort: { createdAt: 'desc' }},
-            function( err, dbContents) {
+            async function( err, dbContents) {
             if (err) return console.error(err);
+            ///////////////////////////////////////////////////////
+            // CHANGE ME LATER - Put into Function to reduce code reuse//
+            ///////////////// Retrieve Images/////////////////////
+            var promises= [];
+            // Fetch all the images names from the s3 bucket and add their contents to object
+            dbContents.docs.forEach( posting => {
+                // There are images
+                if (posting.blogImages.length > 0){
+                    // Create an array to hold bytes
+                    posting.blogImageContents = [];
+                    posting.blogImages.forEach( image_name => {
+                        // Call s3 method
+                        var promise = getImage(image_name)
+                            .then((img)=>{ posting.blogImageContents.push(encode(img.Body)) }).catch( e => {console.log(e); })
+                        // Push promise onto stack for later resolution
+                        promises.push(promise);
+                    })
+                }
+            });
+
+            // Later Resolution
+            await Promise.all(promises);
+            //////////////////// Images Retrieved ///////////////////
+
             var user = req.user  ? req.user : null;
             res.render('index', { user: user, blogContent : dbContents }); // Pass the DB Results into the Renderer
         });
@@ -104,8 +158,31 @@ module.exports = app => {
         Blogpost.aggregatePaginate(	
             aggregateQuery, 
             { page: req.params.page_num, limit: RESULTS_PER_PAGE, sort: { createdAt: 'desc' }},
-            function( err, dbContents) {
+            async function( err, dbContents) {
             if (err) return console.error(err);
+            ///////////////////////////////////////////////////////
+            // CHANGE ME LATER - Put into Function to reduce code reuse//
+            ///////////////// Retrieve Images/////////////////////
+            var promises= [];
+            // Fetch all the images names from the s3 bucket and add their contents to object
+            dbContents.docs.forEach( posting => {
+                // There are images
+                if (posting.blogImages.length > 0){
+                    // Create an array to hold bytes
+                    posting.blogImageContents = [];
+                    posting.blogImages.forEach( image_name => {
+                        // Call s3 method
+                        var promise = getImage(image_name)
+                            .then((img)=>{ posting.blogImageContents.push(encode(img.Body)) }).catch( e => {console.log(e); })
+                        // Push promise onto stack for later resolution
+                        promises.push(promise);
+                    })
+                }
+            });
+
+            // Later Resolution
+            await Promise.all(promises);
+            //////////////////// Images Retrieved ///////////////////
 
             var user = req.user  ? req.user : null;
             res.render('index', { user: user, blogContent : dbContents }); // Pass the DB Results into the Renderer

@@ -1,4 +1,4 @@
-### This is forked version of master blog intending to serve as a contracting site.
+# This is forked version of master blog intending to serve as a contracting site.
 ## For information on merging this branch with master. See source:
 https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging
 
@@ -83,3 +83,17 @@ See
 
         AWSAccessKeyId=<generate_this>
         AWSSecretKey=<generate_this>
+
+
+### Database Backup & Restoration
+See README.md inside scripts/utils for further details. General procedures outlined here:
+#### Backup:
+                Back up scripts are stored in cron.daily, and expected to automatically execute. Manually backup can be performed doing the following:
+                        1. Enter scripts/utils
+                        2. execute backup script:
+                                ./db-back
+#### Restore:
+                This is done manually. Perform the following:
+                        1. Enter scripts/utils
+                        2. execute restore script:
+                                sh ./delete-n-restore-mongo-db.sh

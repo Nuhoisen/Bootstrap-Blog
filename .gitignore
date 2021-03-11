@@ -1,5 +1,5 @@
 .env
 node_modules
 mybackup
-scripts/utils/mybackup
 src/static/imgs/*
+scripts/utils/mybackup/*
