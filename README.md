@@ -78,10 +78,10 @@ See
         MONGO_URI=mongodb://${MONGO_DATABASE_USERNAME}:${MONGO_DATABASE_PASSWORD}@mongo:27017/${MONGO_INITDB_DATABASE}
 
 
-
+        SITE_DOMAIN=<www.domain.com>
         SESSION_SECRET=<anything>
 
-        ADMIN_USER_EMAIL=kellyhonsing@gmail.com
+        ADMIN_USER_EMAIL=<useremail@outlook.com>
 
         CLOUD_NAME=<generate_this>
         CLOUD_API_KEY=<generate_this>
