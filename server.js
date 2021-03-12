@@ -18,6 +18,7 @@ const Blogpost 		= require('./src/models/blog_post')
 const utils			= require('./src/utils/utils')
 const s3			= require('./src/utils/s3')
 
+
 // DB Setup
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true

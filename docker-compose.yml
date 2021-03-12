@@ -25,6 +25,8 @@ services:
     external_links:
       - mongo
     env_file: .env
+    environment:
+      - MONGO_URI=mongodb://${MONGO_DATABASE_USERNAME}:${MONGO_DATABASE_PASSWORD}@mongo:27017/${MONGO_INITDB_DATABASE}
     networks:
       - app-network
 
