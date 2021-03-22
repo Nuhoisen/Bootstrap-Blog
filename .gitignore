@@ -4,3 +4,4 @@ mybackup
 src/static/imgs/*
 scripts/utils/mybackup/*
 s3rootkey.csv
+dhparam

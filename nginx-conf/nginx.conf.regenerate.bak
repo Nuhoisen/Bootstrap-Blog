@@ -1,0 +1,21 @@
+# Use this file to regenerate cerbot webroot certificate
+server {
+        listen 80;
+        listen [::]:80;
+        server_name kellsthought.com www.kellsthought.com;
+	
+	root /var/www/html;
+	index index.html index.htm index.nginx-debian.html;
+	
+
+        location ~ /.well-known/acme-challenge {
+          allow all;
+          root /var/www/html;
+        }
+
+        location / {
+		proxy_pass http://docker-node-mongo:8080;
+        }
+
+}
+

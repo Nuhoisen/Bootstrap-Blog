@@ -2,6 +2,7 @@ version: '3'
 services:
   app:
     command: npm run production
+
   webserver:
     image: nginx:mainline-alpine
     container_name: webserver
@@ -29,7 +30,10 @@ services:
       - web-root:/var/www/html
     depends_on:
       - webserver
+    #command: certonly --webroot --webroot-path=/var/www/html --email ${FROM_EMAIL} --agree-tos --no-eff-email --staging -d ${SITE_DOMAIN}   -d www.${SITE_DOMAIN}  # Used to regenerate certificate
     command: certonly --webroot --webroot-path=/var/www/html --email ${FROM_EMAIL} --agree-tos --no-eff-email --force-renewal -d ${SITE_DOMAIN}   -d www.${SITE_DOMAIN}
+    networks:
+      - app-network
 
 volumes:
   certbot-etc:
