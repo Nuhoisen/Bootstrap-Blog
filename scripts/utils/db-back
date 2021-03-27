@@ -7,13 +7,17 @@ BACKUP_SERVER_DIR_DEST=/home/kelly/mongo-block-backup
 
 HOST_SERVER_PROJECT_DIR=/home/kelly/Bootstrap-Blog
 
-source $HOST_SERVER_PROJECT_DIR/.env
+export $(grep -v '^#' $HOST_SERVER_PROJECT_DIR/.env | xargs -d '\n')
 
 current_time=$(date "+%Y.%m.%d-%H.%M.%S")
 
 docker exec -ti mongo sh -c 'rm -r /data_con*'
 docker exec -ti mongo mkdir data_con_$current_time -p
-docker exec -ti mongo mongodump --uri="$MONGO_URI" --out /data_con_$current_time
+
+
+uri_credentials=$(eval echo ${MONGO_URI})
+
+docker exec -ti mongo mongodump --uri="$uri_credentials" --out /data_con_$current_time
 
 mkdir -p $BACKUP_DIR_SRC  
 docker cp mongo:/data_con_$current_time/   $BACKUP_DIR_SRC  	# copy backup directory to local machine
